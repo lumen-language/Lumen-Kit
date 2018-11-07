@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <idea-plugin>
-  <id>org.jetbrains.idea.clojure</id>
+  <id>org.jetbrains.idea.lumen</id>
   <version>0.7.5-snapshot</version>
-  <vendor email="gregory.shrago@jetbrains.com">Greg Shrago</vendor>
+  <vendor email="shawnpresser@gmail.com">Shawn Presser</vendor>
   <idea-version since-build="172"/>
 
-  <name>Clojure-Kit</name>
-  <description>Clojure and ClojureScript</description>
+  <name>Lumen-Kit</name>
+  <description>Lumen Lisp</description>
 
   <depends>com.intellij.modules.lang</depends>
   <depends optional="true" config-file="plugin-copyright.xml">com.intellij.copyright</depends>
@@ -23,7 +23,7 @@
       <li>Editor: support custom folding regions</li>
       <li>Clojure: better support for #_ forms</li>
     </ul>
-    <a href="https://github.com/gregsh/Clojure-Kit#change-log">Full change log...</a>
+    <a href="https://github.com/lumen-language/Lumen-Kit#change-log">Full change log...</a>
     ]]>
   </change-notes>
 

@@ -65,17 +65,17 @@ test {
 }
 
 task plugin_jar(type: Jar, dependsOn: [rootProject.tasks["assemble"]]) {
-  baseName = "clojure-kit"
+  baseName = "lumen-kit"
   destinationDir = file(artifactsPath)
   manifest { from "$rootDir/resources/META-INF/MANIFEST.MF" }
   from(rootProject.sourceSets.main.output)
 }
 
 task plugin_zip(type: Zip, dependsOn: [plugin_jar]) {
-  baseName = "ClojureKit"
+  baseName = "LumenKit"
   destinationDir = file(artifactsPath)
   from(tasks["plugin_jar"].outputs) {
-    into "/ClojureKit/lib"
+    into "/LumenKit/lib"
   }
 }
 
