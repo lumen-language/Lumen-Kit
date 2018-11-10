@@ -54,6 +54,7 @@ SYM_CHAR2=[\w<>$%&=*+\-!?_|'#./]
   "#"                    { yybegin(DISPATCH); }
 
   "^"                    { return C_HAT; }
+  ",@"                   { return C_COMMA_AT; }
   "~@"                   { return C_TILDE_AT; }
   "~"                    { return C_TILDE; }
   "@"                    { return C_AT; }

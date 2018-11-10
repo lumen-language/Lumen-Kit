@@ -151,4 +151,4 @@
 /clojure/walk.clj                        0 errors, 0 warnings, 0 dynamic
 /clojure/xml.clj                         0 errors, 0 warnings, 0 dynamic
 /clojure/zip.clj                         0 errors, 0 warnings, 0 dynamic
-Total: 110 warnings in 43 files (729.74K chars)
+Total: 110 warnings in 43 files (729.74 kB chars)

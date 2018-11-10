@@ -31,7 +31,7 @@
     char='regexp:\\(u\d{4}|newline|space|backspace|return|.)'
     bool="regexp:true|false"
     nil='nil'
-    sym="regexp:[\w.<>$%&=*/+\-!?_'[^\d]][\w.<>$%&=*/+\-!?_']*((:[\w<>$%&=*/+\-!?_'])+)?"
+    sym="regexp:[\w.<>#$%&=*/+\-!?_'[^\d]][\w.<>$%&=*/+\-!?_']*((:[\w<>$%&=*/+\-!?_'])+)?"
     sharp_hat="#^"
     sharp_quote="#'"
     sharp_comment="#_"
@@ -47,6 +47,7 @@
     bracket2=']'
     brace1='{'
     brace2='}'
+    bang='!'
     colon=':'
     coloncolon='::'
     comma=','
@@ -55,10 +56,12 @@
     sharp="#"
     hat="^"
     tilde="~"
+    comma_at=",@"
     tilde_at="~@"
     at="@"
 
     dot='.'
+    dotdotdot='...'
     dotdash='.-'
     slash='/'
   ]
@@ -118,7 +121,7 @@ access ::= ('.' | '.-') symbol
 left access_left ::= !<<space>> '.'
 constructor ::= '#' ignored symbol ignored form
 metadata ::= ("^" | "#^") (string | symbol | keyword | map)
-reader_macro ::= "'" | "~" | "~@" | "@" | "`" |  "#_" | "#'" | "#=" | symbolic_value | reader_cond | map_ns_prefix
+reader_macro ::= "'" | "," | ",@" | "~" | "~@" | "@" | "`" |  "#_" | "#'" | "#=" "#\\" | symbolic_value | reader_cond | map_ns_prefix
 private symbolic_value ::= '##' &sym {pin=1}
 private reader_cond ::= ('#?' | '#?@') &'(' {pin(".*")=1}
 private map_ns_prefix ::= "#:" (':' <<nospace>> symbol_plain

@@ -47,7 +47,7 @@ object ClojureConstants {
   @JvmStatic val SYMBOLIC_VALUES = hashSetOf("Inf", "-Inf", "NaN")
 
   @JvmStatic val SPECIAL_FORMS = "\\s+".toRegex().split("""
-    def if do quote var
+    def mac if do quote var
     recur throw
     try catch finally
     monitor-enter monitor-exit
@@ -60,6 +60,14 @@ object ClojureConstants {
     fn if do let loop
     try catch finally
 
+    iflet whenlet
+    let-if let-when
+    aif awhen
+
+    with withs
+
+    step each down forlen
+
     and or when when-not when-let when-first if-not if-let cond condp case when-some if-some
     for doseq dotimes while
     .. doto -> ->> as-> cond-> cond->> some-> some->>
@@ -71,12 +79,26 @@ object ClojureConstants {
   @JvmStatic val DEF_ALIKE_SYMBOLS = "\\s+".toRegex().split("""
     def defn defn- defmacro defonce deftype defrecord defstruct defmulti defprotocol
     def-aset definline definterface
-    define defcurried deftype* defrecord* create-ns
+    define define-global define-export define-local define-macro define-symbol define-special
+    defcurried deftype* defrecord* create-ns
+    mac defopl define-expander define-setter define-getter define-transformer define-macro define-special define-symbol define define-global
+    defop-raw defopr-raw defop defopr testop
+    %global-function %local-function %local
+    defopt defopg defope defopa adop edop newscache
+    define-test
+    rfn defset defmemo defcache defhook xdef
+    defun
     """.trim()).toSet()
 
-  @JvmStatic val FN_ALIKE_SYMBOLS = "\\s+".toRegex().split("""fn fn* rfn""").toSet()
+  @JvmStatic val FN_ALIKE_SYMBOLS = "\\s+".toRegex().split("""fn fn* rfn afn lambda""").toSet()
 
   @JvmStatic val LET_ALIKE_SYMBOLS = "\\s+".toRegex().split("""
+    with withs
+    iflet whenlet
+    let-if let-when let-macro let-symbol
+
+    step each down forlen
+
     let let* loop when-let when-some
     if-let if-some with-open when-first with-redefs
     for doseq dotimes
@@ -94,6 +116,7 @@ object ClojureConstants {
 
   @JvmStatic val OO_ALIKE_SYMBOLS = "\\s+".toRegex().split("""
     defprotocol definterface deftype defrecord extend-protocol extend-type proxy reify
+    define-method define-type define-struct define-record define-protocol define-proxy define-class define-interface
     """.trim()).toSet()
 
   @JvmStatic val LEIN_CONFIG = "project.clj"
@@ -111,11 +134,13 @@ object ClojureConstants {
     if def fn* do let* loop* letfn* throw try catch finally
     recur new set! ns deftype* defrecord* . js* quote var
 
+    set get guard
+
     Infinity -Infinity
     """.trim()).toSet()
 
   @JvmStatic val CLJS_TYPES = "\\s+".toRegex().split("""
-    default nil object boolean number string array function
+    default nil object boolean number string array function undefined
     """.trim()).toSet()
 
   // java specific
@@ -142,9 +167,13 @@ object ClojureIcons {
 fun getIconForType(type: String): Icon? = when {
   type == "keyword" -> null
   type == "ns" -> ClojureIcons.NAMESPACE
-  type.startsWith("def") -> ClojureIcons.DEFN
+  type == "mac" -> ClojureIcons.MACRO
   type == "defmacro" -> ClojureIcons.MACRO
+  type == "define-macro" -> ClojureIcons.MACRO
   type == "method" -> ClojureIcons.METHOD
+  type == "defmethod" -> ClojureIcons.METHOD
+  type == "define-method" -> ClojureIcons.METHOD
+  type.startsWith("def") -> ClojureIcons.DEFN
   ClojureConstants.NS_ALIKE_SYMBOLS.contains(type) -> ClojureIcons.NAMESPACE
   else -> ClojureIcons.SYMBOL
 }
@@ -208,7 +237,9 @@ fun getTokenDescription(type: IElementType?) = when (type) {
       "(let [a 10] `(str a \"=\" ~a)) ⇒ (clojure.core/str user/a \"=\" 10)"
   ClojureTypes.C_TILDE -> "Syntax unquote:<p>" +
       "(let [a 10] `(str a \"=\" ~a)) ⇒ (clojure.core/str user/a \"=\" 10)"
+  ClojureTypes.C_COMMA_AT -> "Syntax unquote-splicing:<p>" +
+      "(let [a [10 11]] `(str a \"=\" ,@a)) ⇒ (clojure.core/str user/a \"=\" [10 11])"
   ClojureTypes.C_TILDE_AT -> "Syntax unquote-splicing:<p>" +
-      "(let [a [10 11]] `(str a \"=\" ~a)) ⇒ (clojure.core/str user/a \"=\" [10 11])"
+      "(let [a [10 11]] `(str a \"=\" ~@a)) ⇒ (clojure.core/str user/a \"=\" [10 11])"
   else -> null
 }

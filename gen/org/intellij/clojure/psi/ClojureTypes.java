@@ -25,6 +25,7 @@ public interface ClojureTypes {
   IElementType C_VEC = new ClojureNodeType("C_VEC");
 
   IElementType C_AT = new ClojureTokenType("@");
+  IElementType C_BANG = new ClojureTokenType("!");
   IElementType C_BOOL = new ClojureTokenType("bool");
   IElementType C_BRACE1 = new ClojureTokenType("{");
   IElementType C_BRACE2 = new ClojureTokenType("}");
@@ -34,8 +35,10 @@ public interface ClojureTypes {
   IElementType C_COLON = new ClojureTokenType(":");
   IElementType C_COLONCOLON = new ClojureTokenType("::");
   IElementType C_COMMA = new ClojureTokenType(",");
+  IElementType C_COMMA_AT = new ClojureTokenType(",@");
   IElementType C_DOT = new ClojureTokenType(".");
   IElementType C_DOTDASH = new ClojureTokenType(".-");
+  IElementType C_DOTDOTDOT = new ClojureTokenType("...");
   IElementType C_HAT = new ClojureTokenType("^");
   IElementType C_HEXNUM = new ClojureTokenType("hexnum");
   IElementType C_NIL = new ClojureTokenType("nil");

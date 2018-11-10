@@ -47,7 +47,7 @@ class ClojureLexerTest : ClojureLexerTestCase(ClojureLexer(ClojureLanguage)) {
   """.trimMargin())
 
   fun testSymbolsAndKeywords() = doTest("""
-    |a :a ::a :a: :a:a ::a:a :a:a:
+    |a :a a: ::a :a: :a:a ::a:a :a:a:
     |$ % & # %2 a& -a +a *a* a#
     |a.b :a.b a/b :a/b
     |'a'b '. '/ a'''
@@ -57,7 +57,7 @@ class ClojureLexerTest : ClojureLexerTestCase(ClojureLexer(ClojureLanguage)) {
 
   fun testDispatchAndQuote() = doTest("""
     |#{} #"\s*\d+" #'x #( ) #_
-    |'quote `qualify ~unquote ~@unquote-splicing
+    |'quote `qualify ~unquote ~@unquote-splicing ,unquote ,@unquote-splicing
     |#?(:clj     Double/NaN :cljs    js/NaN :default nil)
     |#?@(:clj [3 4] :cljs [5 6])
   """.trimMargin())

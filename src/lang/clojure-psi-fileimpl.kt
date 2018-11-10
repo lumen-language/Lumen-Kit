@@ -504,8 +504,8 @@ private class RoleHelper {
 
   fun processKeyword(e: CKeywordBase) {
     val symbol = e.symbol
-    val isUserNS = symbol.prevSibling.elementType == ClojureTypes.C_COLONCOLON
-    val qualifierName = symbol.qualifier?.name
+    val isUserNS = symbol!!.prevSibling.elementType == ClojureTypes.C_COLONCOLON
+    val qualifierName = symbol!!.qualifier?.name
     val ns = when {
       qualifierName != null && isUserNS -> resolveAlias(qualifierName)
       qualifierName != null -> qualifierName

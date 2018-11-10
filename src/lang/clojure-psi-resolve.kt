@@ -240,7 +240,7 @@ class CSymbolReference(o: CSymbol, r: TextRange = o.lastChild.textRange.shiftRig
           o is CList && o.role == Role.DEF ->
             if (!nsQualifier && refText == o.def!!.name) service.getDefinition(o) else null
           o is CKeyword ->
-            if (!nsQualifier && refText == o.symbol.name) service.getKeyword(o) else null
+            if (!nsQualifier && refText == o.symbol!!.name) service.getKeyword(o) else null
           o is CSymbol ->
             if (!nsQualifier && refText == o.name) service.getSymbol(o) else null
           o is PsiNamedElement -> {

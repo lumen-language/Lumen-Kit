@@ -613,23 +613,36 @@ public class ClojureParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // "'" | "~" | "~@" | "@" | "`" |  "#_" | "#'" | "#=" | symbolic_value | reader_cond | map_ns_prefix
+  // "'" | "," | ",@" | "~" | "~@" | "@" | "`" |  "#_" | "#'" | "#=" "#\\" | symbolic_value | reader_cond | map_ns_prefix
   public static boolean reader_macro(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "reader_macro")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, C_READER_MACRO, "<form>");
     r = consumeToken(b, C_QUOTE);
+    if (!r) r = consumeToken(b, C_COMMA);
+    if (!r) r = consumeToken(b, C_COMMA_AT);
     if (!r) r = consumeToken(b, C_TILDE);
     if (!r) r = consumeToken(b, C_TILDE_AT);
     if (!r) r = consumeToken(b, C_AT);
     if (!r) r = consumeToken(b, C_SYNTAX_QUOTE);
     if (!r) r = consumeToken(b, C_SHARP_COMMENT);
     if (!r) r = consumeToken(b, C_SHARP_QUOTE);
-    if (!r) r = consumeToken(b, C_SHARP_EQ);
+    if (!r) r = reader_macro_9(b, l + 1);
     if (!r) r = symbolic_value(b, l + 1);
     if (!r) r = reader_cond(b, l + 1);
     if (!r) r = map_ns_prefix(b, l + 1);
     exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // "#=" "#\\"
+  private static boolean reader_macro_9(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "reader_macro_9")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, C_SHARP_EQ);
+    r = r && consumeToken(b, "#\\");
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -853,47 +866,47 @@ public class ClojureParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  final static Parser form_parser_ = new Parser() {
+  static final Parser form_parser_ = new Parser() {
     public boolean parse(PsiBuilder b, int l) {
       return form(b, l + 1);
     }
   };
-  final static Parser form_recover_parser_ = new Parser() {
+  static final Parser form_recover_parser_ = new Parser() {
     public boolean parse(PsiBuilder b, int l) {
       return formRecover(b, l + 1);
     }
   };
-  final static Parser list_body_0_0_parser_ = new Parser() {
+  static final Parser list_body_0_0_parser_ = new Parser() {
     public boolean parse(PsiBuilder b, int l) {
       return list_body_0_0(b, l + 1);
     }
   };
-  final static Parser map_body_1_0_parser_ = new Parser() {
+  static final Parser map_body_1_0_parser_ = new Parser() {
     public boolean parse(PsiBuilder b, int l) {
       return map_body_1_0(b, l + 1);
     }
   };
-  final static Parser map_entry_parser_ = new Parser() {
+  static final Parser map_entry_parser_ = new Parser() {
     public boolean parse(PsiBuilder b, int l) {
       return map_entry(b, l + 1);
     }
   };
-  final static Parser root_0_0_parser_ = new Parser() {
+  static final Parser root_0_0_parser_ = new Parser() {
     public boolean parse(PsiBuilder b, int l) {
       return root_0_0(b, l + 1);
     }
   };
-  final static Parser root_entry_recover_parser_ = new Parser() {
+  static final Parser root_entry_recover_parser_ = new Parser() {
     public boolean parse(PsiBuilder b, int l) {
       return rootFormRecover(b, l + 1);
     }
   };
-  final static Parser set_body_0_0_parser_ = new Parser() {
+  static final Parser set_body_0_0_parser_ = new Parser() {
     public boolean parse(PsiBuilder b, int l) {
       return set_body_0_0(b, l + 1);
     }
   };
-  final static Parser vec_body_0_0_parser_ = new Parser() {
+  static final Parser vec_body_0_0_parser_ = new Parser() {
     public boolean parse(PsiBuilder b, int l) {
       return vec_body_0_0(b, l + 1);
     }

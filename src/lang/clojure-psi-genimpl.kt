@@ -51,10 +51,10 @@ class ClojurePsiImplUtil {
       return o.text.let { it.substring(offset - o.textRange.startOffset, it.length + delta) }
     }
 
-    @JvmStatic fun getName(o: CKeywordBase): String = o.symbol.name
+    @JvmStatic fun getName(o: CKeywordBase): String = o.symbol!!.name
     @JvmStatic fun getNamespace(o: CKeywordBase): String = o.resolvedNs!!
 
-    @JvmStatic fun getTextOffset(o: CKeywordBase): Int = o.symbol.textOffset
+    @JvmStatic fun getTextOffset(o: CKeywordBase): Int = o.symbol!!.textOffset
 
     @JvmStatic fun getTextOffset(o: CListBase): Int =
         (o.findChild(Role.NAME) ?: o.firstForm)?.textOffset
